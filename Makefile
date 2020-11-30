@@ -1,7 +1,7 @@
 NAME = computor
 
 SRC_DIR = src
-SRC = findSolution.go  main.go  reduceForm.go 
+SRC = main.go complex.go matrix.go 
 COMP = go build
 
 $(NAME): $(addprefix $(SRC_DIR)/, $(SRC)) 
