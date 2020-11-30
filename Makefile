@@ -1,7 +1,7 @@
 NAME = computor
 
 SRC_DIR = src
-SRC = main.go 
+SRC = main.go complex.go matrix.go 
 COMP = go build
 
 $(NAME): $(addprefix $(SRC_DIR)/, $(SRC)) 
