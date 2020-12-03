@@ -11,7 +11,7 @@ func isAlpha(ch byte) bool {
 	return false
 }
 
-func Find(symbols string, ch byte) bool {
+func find(symbols string, ch byte) bool {
 	for _, v := range symbols {
 		if byte(v) == ch {
 			return true
@@ -20,6 +20,7 @@ func Find(symbols string, ch byte) bool {
 	return false
 }
 
+//CreateTokens split text to the tokens
 func CreateTokens(text string) ([]string, error) {
 	tokens := make([]string, 0)
 	i := 0
@@ -27,7 +28,7 @@ func CreateTokens(text string) ([]string, error) {
 	for i < len(text)-1 {
 		t := text[i]
 		switch {
-		case Find(symbols, t):
+		case find(symbols, t):
 			tokens = append(tokens, text[i:i+1])
 			i++
 		case t >= '0' && t <= '9':
@@ -47,10 +48,9 @@ func CreateTokens(text string) ([]string, error) {
 		case t == ' ':
 			i++
 		default:
-			err := fmt.Errorf("неизвестный знак - %c на позиции %d\n", text[i], i)
+			err := fmt.Errorf("неизвестный знак - %c на позиции %d", text[i], i)
 			return nil, err
 		}
-		i++
 	}
 	return tokens, nil
 }
