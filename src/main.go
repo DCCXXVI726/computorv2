@@ -7,6 +7,9 @@ import (
 )
 
 func main() {
+	var (
+		tokens []string
+	)
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		text, err := reader.ReadString('\n')
@@ -18,8 +21,14 @@ func main() {
 		if text == ("exit\n") {
 			fmt.Println("See you next time!")
 			os.Exit(0)
+		} else {
+			tokens, err = CreateTokens(text)
+			if err != nil {
+				err = fmt.Errorf("problem with CreateTokens: %s", err)
+				panic(err)
+			}
 		}
 		fmt.Print("->")
-		fmt.Print(text)
+		fmt.Println(tokens)
 	}
 }
