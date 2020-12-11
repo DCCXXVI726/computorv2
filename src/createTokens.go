@@ -4,13 +4,6 @@ import (
 	"fmt"
 )
 
-func isAlpha(ch byte) bool {
-	if ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z' {
-		return true
-	}
-	return false
-}
-
 func find(symbols string, ch byte) bool {
 	for _, v := range symbols {
 		if byte(v) == ch {
@@ -38,9 +31,9 @@ func CreateTokens(text string) ([]string, error) {
 			}
 			tokens = append(tokens, text[i:k])
 			i = k
-		case isAlpha(t):
+		case IsAlpha(t):
 			k := i + 1
-			for isAlpha(text[k]) && k < len(text)-1 {
+			for IsAlpha(text[k]) && k < len(text)-1 {
 				k++
 			}
 			tokens = append(tokens, text[i:k])

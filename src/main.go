@@ -9,6 +9,7 @@ import (
 func main() {
 	var (
 		tokens []string
+		vars   map[string]interface{}
 	)
 	reader := bufio.NewReader(os.Stdin)
 	for {
@@ -28,7 +29,11 @@ func main() {
 				panic(err)
 			}
 		}
+		msg := CheckTokens(tokens, vars)
+		if err != nil {
+			panic(err)
+		}
 		fmt.Print("->")
-		fmt.Println(tokens)
+		fmt.Println(msg)
 	}
 }
