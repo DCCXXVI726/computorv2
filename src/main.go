@@ -29,7 +29,7 @@ func main() {
 				panic(err)
 			}
 		}
-		msg := CheckTokens(tokens, vars)
+		msg, err := CheckTokens(tokens, vars)
 		if err != nil {
 			panic(err)
 		}

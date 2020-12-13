@@ -7,7 +7,9 @@ func Add(fir interface{}, sec interface{}) (interface{}, error) {
 	case Complex:
 		switch sec.(type) {
 		case Complex:
-			return Complex{0, 0}, nil
+			first := fir.(Complex)
+			second := sec.(Complex)
+			return Complex{first.Re + second.Re, first.Im + second.Im}, nil
 		}
 	}
 	return nil, nil

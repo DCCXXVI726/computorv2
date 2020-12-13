@@ -4,9 +4,9 @@ type Operation struct {
 	text string
 }
 
-type operFunc func(interface{}, interface{}) (interface{}, error)
+type OperFunc func(interface{}, interface{}) (interface{}, error)
 
-func (op Operation) getFunc() operFunc {
+func (op Operation) getFunc() OperFunc {
 	/*myMap := map[string]operFunc{
 		"+": Add,
 	}*/
@@ -14,4 +14,8 @@ func (op Operation) getFunc() operFunc {
 		return Add
 	}
 	return nil
+}
+
+func Priority(f Operation, s Operation) bool {
+	return true
 }
