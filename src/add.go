@@ -1,15 +1,14 @@
 package main
 
-import (
-	"fmt"
-)
+import ()
 
-func Add(fir interface{}, sec interface{}) {
+func Add(fir interface{}, sec interface{}) (interface{}, error) {
 	switch fir.(type) {
 	case Complex:
 		switch sec.(type) {
 		case Complex:
-			fmt.Print("два комплексных")
+			return Complex{0, 0}, nil
 		}
 	}
+	return nil, nil
 }
