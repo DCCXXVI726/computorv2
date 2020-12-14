@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// check symbol in string
 func find(symbols string, ch byte) bool {
 	for _, v := range symbols {
 		if byte(v) == ch {

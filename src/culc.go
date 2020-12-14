@@ -4,31 +4,55 @@ import (
 	"fmt"
 )
 
+// culc all operation that has more priorirt than token
+func culcHighPriority(numbers []interface{},
+	opers []Operation,
+	token Operation) (
+	[]interface{},
+	[]Operation,
+	error) {
+	for len(opers) != 0 && Priority(token, opers[len(opers)-1]) {
+		if len(numbers) > 1 {
+			oper := opers[len(opers)-1].getFunc()
+			opers = opers[:len(opers)-1]
+			newNumber, _ := oper(numbers[len(numbers)-2],
+				numbers[len(numbers)-1])
+			numbers = numbers[:len(numbers)-2]
+			numbers = append(numbers, newNumber)
+		} else {
+			err := fmt.Errorf("don't have numbers for operation: %s",
+				opers[len(opers)-1].text)
+			return nil, nil, err
+		}
+	}
+	return numbers, opers, nil
+}
+
+// Culc culculate numbers and matrix
 func Culc(tokens []interface{}) (interface{}, error) {
 	var numbers []interface{}
 	var opers []Operation
+	var err error
 	for i := 0; i < len(tokens); i++ {
-		switch tokens[i].(type) {
+		switch token := tokens[i].(type) {
 		case Complex:
-			numbers = append(numbers, tokens[i])
+			numbers = append(numbers, token)
 		case Operation:
-			if len(opers) != 0 && Priority(tokens[i].(Operation), opers[len(opers)-1]) {
-				if len(numbers) > 1 {
-					oper := opers[len(opers)-1].getFunc()
-					opers = opers[:len(opers)-1]
-					newNumber, _ := oper(numbers[len(numbers)-2], numbers[len(numbers)-1])
-					numbers = numbers[:len(numbers)-2]
-					numbers = append(numbers, newNumber)
-				}
+			numbers, opers, err = culcHighPriority(numbers,
+				opers, token)
+			if err != nil {
+				err := fmt.Errorf("problem with culcHighPriopity: %s", err)
+				return nil, err
 			}
-			opers = append(opers, tokens[i].(Operation))
+			opers = append(opers, token)
 		}
 	}
 	for k := len(opers) - 1; k >= 0; k-- {
 		if len(numbers) > 1 {
 			oper := opers[k].getFunc()
 			opers = opers[:k]
-			newNumber, _ := oper(numbers[len(numbers)-2], numbers[len(numbers)-1])
+			newNumber, _ := oper(numbers[len(numbers)-2],
+				numbers[len(numbers)-1])
 			numbers = numbers[:len(numbers)-2]
 			numbers = append(numbers, newNumber)
 		}
@@ -36,6 +60,6 @@ func Culc(tokens []interface{}) (interface{}, error) {
 	if len(numbers) == 1 {
 		return numbers[0], nil
 	}
-	err := fmt.Errorf("Что-то пошло не так")
+	err = fmt.Errorf("Что-то пошло не так")
 	return nil, err
 }

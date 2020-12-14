@@ -6,6 +6,12 @@ import (
 	"os"
 )
 
+/*
+**	Read line
+**	split on numbers/chars
+**	main culc
+ */
+
 func main() {
 	var (
 		tokens []string
@@ -18,7 +24,7 @@ func main() {
 			err = fmt.Errorf("problem in ReadString: %s", err)
 			panic(err)
 		}
-
+		fmt.Print("->")
 		if text == ("exit\n") {
 			fmt.Println("See you next time!")
 			os.Exit(0)
@@ -26,14 +32,16 @@ func main() {
 			tokens, err = CreateTokens(text)
 			if err != nil {
 				err = fmt.Errorf("problem with CreateTokens: %s", err)
-				panic(err)
+				fmt.Println(err)
+				continue
 			}
 		}
 		msg, err := CheckTokens(tokens, vars)
 		if err != nil {
-			panic(err)
+			err = fmt.Errorf("problem with CheckTokens: %s", err)
+			fmt.Println(err)
+			continue
 		}
-		fmt.Print("->")
 		fmt.Println(msg)
 	}
 }

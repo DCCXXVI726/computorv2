@@ -1,21 +1,41 @@
 package main
 
+// Operation is type for "+" "-" and etc
 type Operation struct {
 	text string
 }
 
-type OperFunc func(interface{}, interface{}) (interface{}, error)
-
-func (op Operation) getFunc() OperFunc {
-	/*myMap := map[string]operFunc{
-		"+": Add,
-	}*/
-	if op.text == "+" {
-		return Add
-	}
-	return nil
+var myMap map[string]OperFunc = map[string]OperFunc{
+	"+": Add,
+	"*": Mult,
 }
 
+var priorityMap map[string]int = map[string]int{
+	"+": 1,
+	"*": 2,
+}
+
+// OperFunc for reduce some code
+type OperFunc func(interface{}, interface{}) (interface{}, error)
+
+// return func
+func (op Operation) getFunc() OperFunc {
+	oper, _ := myMap[op.text]
+	return oper
+}
+
+//IsOper check string for operation
+func IsOper(s string) bool {
+	_, ok := myMap[s]
+	return ok
+}
+
+// Priority check priority
 func Priority(f Operation, s Operation) bool {
-	return true
+	firstOper, _ := priorityMap[f.text]
+	secondOper, _ := priorityMap[s.text]
+	if firstOper <= secondOper {
+		return true
+	}
+	return false
 }
