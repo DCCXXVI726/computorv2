@@ -15,8 +15,12 @@ func culcHighPriority(numbers []interface{},
 		if len(numbers) > 1 {
 			oper := opers[len(opers)-1].getFunc()
 			opers = opers[:len(opers)-1]
-			newNumber, _ := oper(numbers[len(numbers)-2],
+			newNumber, err := oper(numbers[len(numbers)-2],
 				numbers[len(numbers)-1])
+			if err != nil {
+				err = fmt.Errorf("problem with operations: %s", err)
+				return nil, nil, err
+			}
 			numbers = numbers[:len(numbers)-2]
 			numbers = append(numbers, newNumber)
 		} else {
@@ -51,15 +55,22 @@ func Culc(tokens []interface{}) (interface{}, error) {
 		if len(numbers) > 1 {
 			oper := opers[k].getFunc()
 			opers = opers[:k]
-			newNumber, _ := oper(numbers[len(numbers)-2],
+			newNumber, err := oper(numbers[len(numbers)-2],
 				numbers[len(numbers)-1])
+			if err != nil {
+				err = fmt.Errorf("problem with operation: %s", err)
+				return nil, err
+			}
 			numbers = numbers[:len(numbers)-2]
 			numbers = append(numbers, newNumber)
+		} else {
+			err = fmt.Errorf("Нет чисел для операций")
+			return nil, err
 		}
 	}
 	if len(numbers) == 1 {
 		return numbers[0], nil
 	}
-	err = fmt.Errorf("Что-то пошло не так")
+	err = fmt.Errorf("Осталось слишком много чисел")
 	return nil, err
 }

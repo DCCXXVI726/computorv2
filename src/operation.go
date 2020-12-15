@@ -8,11 +8,15 @@ type Operation struct {
 var myMap map[string]OperFunc = map[string]OperFunc{
 	"+": Add,
 	"*": Mult,
+	"-": Minus,
+	"/": Div,
 }
 
 var priorityMap map[string]int = map[string]int{
 	"+": 1,
 	"*": 2,
+	"-": 1,
+	"/": 2,
 }
 
 // OperFunc for reduce some code
