@@ -17,6 +17,7 @@ func main() {
 		tokens []string
 		vars   map[string]interface{}
 	)
+	vars = make(map[string]interface{}, 0)
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		text, err := reader.ReadString('\n')

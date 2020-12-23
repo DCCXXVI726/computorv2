@@ -49,6 +49,9 @@ func Culc(tokens []interface{}) (interface{}, error) {
 				return nil, err
 			}
 			opers = append(opers, token)
+		default:
+			err := fmt.Errorf("cant' recognize token: %s", token.(string))
+			return nil, err
 		}
 	}
 	for k := len(opers) - 1; k >= 0; k-- {
