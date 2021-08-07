@@ -1,11 +1,14 @@
 NAME = computor
 
 SRC_DIR = src
-SRC = main.go complex.go createTokens.go 
+SRC = operation.go 
 COMP = go build
 
 $(NAME): $(addprefix $(SRC_DIR)/, $(SRC)) 
 	$(COMP) -o $(NAME) $(addprefix $(SRC_DIR)/, $(SRC)) 
+
+test: 
+	go test $(addprefix ./,$(SRC_DIR))
 
 all: $(NAME)
 
