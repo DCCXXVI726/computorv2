@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-type testCase struct {
+type testCaseAtof struct {
 	name	string
 	str		string
 	pos		int
@@ -14,22 +14,22 @@ type testCase struct {
 }
 
 func TestAtof(t *testing.T) {
-	tests := []testCase {
-		testCase{
+	tests := []testCaseAtof {
+		testCaseAtof{
 			name:	"zero",
 			str:	"0",
 			pos:	1,
 			result:	0.0,
 			err:	false,
 		},
-		testCase{
+		testCaseAtof{
 			name:	"simple dot",
 			str:	"0.1",
 			pos:	3,
 			result:	0.1,
 			err:	false,
 		},
-		testCase{
+		testCaseAtof{
 			name:	"positive dot",
 			str:	"1.111",
 			pos:	5,
@@ -39,7 +39,7 @@ func TestAtof(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			result, pos, err := Atof(tc.str)
+			result, pos, err := atof(tc.str)
 			if !reflect.DeepEqual(result, tc.result) {
 				t.Errorf("Atof() result = %f, want %f", result, tc.result)
 			}

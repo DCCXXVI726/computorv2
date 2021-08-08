@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+type Operation struct {
+	str		string
+	weight	int
+}
+
 func Sum(i interface{}, k interface{}) (interface{}, error) {
 	switch ftype := i.(type) {
 	case float64:

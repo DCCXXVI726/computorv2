@@ -4,7 +4,7 @@ import(
 	"fmt"
 )
 
-func Atof(str string) (float64, int, error) {
+func atof(str string) (float64, int, error) {
 	dot := false
 	result := 0.0
 	k := 1
