@@ -1,12 +1,20 @@
 package main
 
 import "fmt"
-
+//Operation is struct for operation
 type Operation struct {
 	str		string
 	weight	int
 }
 
+func (op Operation) Do(i interface{}, k interface{}) (interface{}, error) {
+	switch op.str {
+		case "+":
+			return Sum(i, k)
+	}
+	return nil, fmt.Errorf("can't find operation %v", op.str)
+}
+//Sum two var
 func Sum(i interface{}, k interface{}) (interface{}, error) {
 	switch ftype := i.(type) {
 	case float64:
@@ -14,10 +22,10 @@ func Sum(i interface{}, k interface{}) (interface{}, error) {
 			case float64:
 				return i.(float64) + k.(float64), nil
 			default:
-				return nil, fmt.Errorf("Can't find type for second var: %T", stype)
+				return nil, fmt.Errorf("Can't find type for second var: %v", stype)
 		}
 	default:
-		return nil, fmt.Errorf("Can't find type for first var: %T", ftype)
+		return nil, fmt.Errorf("Can't find type for first var: %v", ftype)
 	}
 	return nil, fmt.Errorf("End of method")
 }

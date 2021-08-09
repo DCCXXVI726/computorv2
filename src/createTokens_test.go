@@ -12,12 +12,12 @@ type testCase struct {
 	err		bool
 }
 
-func testCreateTokens(t *testing.T) {
+func TestCreateTokens(t *testing.T) {
 	tests := []testCase{
 		testCase{
 			name:	"simple plus",
 			str:	"2 + 3",
-			result:	append(make([]interface{},0), 2.0, "+", 3.0),
+			result:	append(make([]interface{},0), 2.0, Operation{"+", 1,}, 3.0),
 			err:	false,
 		},
 	}

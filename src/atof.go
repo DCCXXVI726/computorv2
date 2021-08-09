@@ -30,7 +30,7 @@ func atof(str string) (float64, int, error) {
 				result = result * 10 + float64(symbol - '0')
 			}
 		default:
-			return 0.0, 0, fmt.Errorf("can't find symbol %v in %s", symbol, str)
+			return result, i, nil
 		}
 	}
 	return result, i, nil

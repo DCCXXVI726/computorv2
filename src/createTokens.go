@@ -38,15 +38,15 @@ func createTokens (s string) ([]interface{}, error) {
 				return nil, fmt.Errorf("Can't atof %v: %v", s[i:], err)
 			}
 			tmp = tmp1
-			i = i + pos - 1
+			i = i + pos
 		case isSpace(symbol):
 			continue
 		case isPlus(symbol):
-			tmp = "+"
+			tmp = Operation{"+", 1}
 		default:
 			return nil, fmt.Errorf("Can't find symbol %v", s[i])
 		}
 		result = append(result, tmp)
 	}
-	return nil, nil
+	return result, nil
 }
