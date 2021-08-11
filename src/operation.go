@@ -7,6 +7,12 @@ type Operation struct {
 	weight	int
 }
 
+func (op Operation) CheckW(op2 Operation) bool {
+	if op.weight <= op2.weight {
+		return true
+	}
+	return false
+}
 func (op Operation) Do(i interface{}, k interface{}) (interface{}, error) {
 	switch op.str {
 		case "+":
