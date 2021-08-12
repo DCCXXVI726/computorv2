@@ -15,10 +15,12 @@ func main() {
 
 		str = strings.Replace(str,"\n", "", -1)
 		if str == "exit" {
+			fmt.Errorf("bay bay")
 			break
 		}
 		tokens, err := createTokens(str)
 		if err != nil {
+			err = fmt.Errorf("Promlem in createTokens: %v", err)
 			fmt.Println(err)
 			continue
 		}

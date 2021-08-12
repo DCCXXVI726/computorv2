@@ -23,6 +23,15 @@ func (op Operation) Do(i interface{}, k interface{}) (interface{}, error) {
 	return nil, fmt.Errorf("can't find operation %v", op.str)
 }
 
+func GetOperation(str string) (interface{}, int, error) {
+	switch str[0] {
+	case '+':
+		return Operation{"+", 1}, 0, nil
+	case '-':
+		return Operation{"-", 1}, 0, nil
+	}
+	return nil, 0, fmt.Errorf("Can't get operation from %v", str)
+}
 func Sub(i interface{}, k interface{}) (interface{}, error) {
 	switch ftype := i.(type) {
 	case float64:

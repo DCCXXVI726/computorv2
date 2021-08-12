@@ -18,8 +18,8 @@ func isSpace(symbol byte) bool {
 	return false
 }
 
-func isPlus(symbol byte) bool {
-	if symbol == '+' {
+func isOperation(symbol byte) bool {
+	if symbol == '+'  || symbol == '-'{
 		return true
 	}
 	return false
@@ -29,20 +29,28 @@ func isPlus(symbol byte) bool {
 func createTokens (s string) ([]interface{}, error) {
 	result := make([]interface{}, 0)
 	for i := 0; i < len(s); i++ {
-		var tmp interface{}
+		var (
+			tmp interface{}
+			pos	int
+			err	error
+		)
+
 		symbol := s[i]
 		switch {
 		case isNumber(symbol):
-			tmp1, pos, err := atof(s[i:])
+			tmp, pos, err = atof(s[i:])
 			if err != nil {
 				return nil, fmt.Errorf("Can't atof %v: %v", s[i:], err)
 			}
-			tmp = tmp1
 			i = i + pos
 		case isSpace(symbol):
 			continue
-		case isPlus(symbol):
-			tmp = Operation{"+", 1}
+		case isOperation(symbol):
+			tmp, pos, err = GetOperation(s[i:])
+			if err != nil {
+				return nil, fmt.Errorf("Promlem in GetOperation() with str %s: %v", s, tmp)
+			}
+			i = i + pos
 		default:
 			return nil, fmt.Errorf("Can't find symbol %v", s[i])
 		}

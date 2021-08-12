@@ -30,8 +30,8 @@ func atof(str string) (float64, int, error) {
 				result = result * 10 + float64(symbol - '0')
 			}
 		default:
-			return result, i, nil
+			return result, i - 1, nil
 		}
 	}
-	return result, i, nil
+	return result, i - 1, nil
 }
