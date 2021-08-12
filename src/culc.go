@@ -37,9 +37,18 @@ func culc(tokens []interface{}) (interface{}, error) {
 		stackVar	stack
 		op			interface{}
 	)
+	lastToken := "first"
 	for i := 0; i < len(tokens); i++ {
 		switch tokens[i].(type) {
 		case Operation:
+			switch lastToken {
+			case "first":
+				if tokens[i].(Operation).str == "-" {
+					stackVar = stackVar.Push(0.0)
+				}
+			case "Operation":
+				return nil, fmt.Errorf("there is 2 operation side by side in %v", tokens)
+			}
 			stackOp, op  = stackOp.Pop()
 			for op != nil && tokens[i].(Operation).CheckW(op.(Operation)) {
 				stackVar, err = countUp(stackVar, op.(Operation))
@@ -52,8 +61,13 @@ func culc(tokens []interface{}) (interface{}, error) {
 				stackOp = stackOp.Push(op)
 			}
 			stackOp = stackOp.Push(tokens[i])
+			lastToken = "Operation"
 		default:
+			if lastToken == "Var" {
+				return nil, fmt.Errorf("there is 2 var side by side in %v", tokens)
+			}
 			stackVar = stackVar.Push(tokens[i])
+			lastToken = "Var"
 		}
 	}
 
