@@ -9,7 +9,8 @@ import (
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
-
+	fmt.Println("Hello there.")
+	printUsage()
 	for {
 		str, _ := reader.ReadString('\n')
 
@@ -24,9 +25,13 @@ func main() {
 			fmt.Println(err)
 			continue
 		}
-		result, err := culc(tokens)
+		result, err, flag, _ := culc(tokens)
 		if err != nil {
 			fmt.Println(err)
+			continue
+		}
+		if flag {
+			fmt.Println("end with close bracket")
 			continue
 		}
 		fmt.Println(result)

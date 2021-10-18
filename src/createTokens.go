@@ -19,7 +19,14 @@ func isSpace(symbol byte) bool {
 }
 
 func isOperation(symbol byte) bool {
-	if symbol == '+'  || symbol == '-'{
+	if symbol == '+'  || symbol == '-' || symbol == '*' || symbol == '/'{
+		return true
+	}
+	return false
+}
+
+func isBracket(symbol byte) bool {
+	if symbol == '(' || symbol == ')' {
 		return true
 	}
 	return false
@@ -49,6 +56,12 @@ func createTokens (s string) ([]interface{}, error) {
 			tmp, pos, err = GetOperation(s[i:])
 			if err != nil {
 				return nil, fmt.Errorf("Promlem in GetOperation() with str %s: %v", s, tmp)
+			}
+			i = i + pos
+		case isBracket(symbol):
+			tmp, pos, err = GetBraket(s[i:])
+			if err != nil {
+				return nil, fmt.Errorf("Promlem in GetBraket() with str %s: %v", s, tmp)
 			}
 			i = i + pos
 		default:
