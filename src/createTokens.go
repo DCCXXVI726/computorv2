@@ -19,7 +19,7 @@ func isSpace(symbol byte) bool {
 }
 
 func isOperation(symbol byte) bool {
-	if symbol == '+'  || symbol == '-' || symbol == '*' || symbol == '/'{
+	if symbol == '+'  || symbol == '-' || symbol == '*' || symbol == '/' || symbol == '%'{
 		return true
 	}
 	return false
@@ -50,6 +50,10 @@ func createTokens (s string) ([]interface{}, error) {
 				return nil, fmt.Errorf("Can't atof %v: %v", s[i:], err)
 			}
 			i = i + pos
+			if i + 1 < len(s) && s[i+1] == 'i' {
+				tmp = Complex{0, tmp.(float64)}
+				i = i + 1
+			}
 		case isSpace(symbol):
 			continue
 		case isOperation(symbol):
@@ -58,12 +62,15 @@ func createTokens (s string) ([]interface{}, error) {
 				return nil, fmt.Errorf("Promlem in GetOperation() with str %s: %v", s, tmp)
 			}
 			i = i + pos
+
 		case isBracket(symbol):
 			tmp, pos, err = GetBraket(s[i:])
 			if err != nil {
 				return nil, fmt.Errorf("Promlem in GetBraket() with str %s: %v", s, tmp)
 			}
 			i = i + pos
+		case symbol == 'i':
+			tmp = Complex{0, 1}
 		default:
 			return nil, fmt.Errorf("Can't find symbol %v", s[i])
 		}
