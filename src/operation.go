@@ -69,7 +69,19 @@ func Multy(i interface{}, k interface{}) (interface{}, error) {
 		switch stype := k.(type) {
 		case float64:
 			return i.(float64) * k.(float64), nil
-
+		case Complex:
+			return Complex{i.(float64) * k.(Complex).Re, i.(float64) * k.(Complex).Im}, nil
+		default:
+			return nil, fmt.Errorf("Can't find type for second var: %v", stype)
+		}
+	case Complex:
+		switch stype := k.(type) {
+		case float64:
+			return Complex{k.(float64) * i.(Complex).Re, k.(float64) * i.(Complex).Im}, nil
+		case Complex:
+			a := i.(Complex)
+			b := k.(Complex)
+			return Complex{a.Re*b.Re-a.Im*b.Im, a.Re * b.Im + a.Im * b.Re}, nil
 		default:
 			return nil, fmt.Errorf("Can't find type for second var: %v", stype)
 		}
@@ -84,10 +96,27 @@ func Dev(i interface{}, k interface{}) (interface{}, error) {
 		switch stype := k.(type) {
 		case float64:
 			return i.(float64) / k.(float64), nil
-
+		case Complex:
+			a := i.(float64)
+			b := k.(Complex)
+			return Complex{a * b.Re/(b.Re * b.Re + b.Im * b.Im), -a * b.Im/(b.Re * b.Re + b.Im * b.Im)},nil
 		default:
 			return nil, fmt.Errorf("Can't find type for second var: %v", stype)
 		}
+	case Complex:
+		switch stype := k.(type) {
+		case float64:
+			a := i.(Complex)
+			b := k.(float64)
+			return Complex{a.Re/b, a.Im/b}, nil
+		case Complex:
+			a := i.(Complex)
+			b := k.(Complex)
+			return Complex{(a.Re * b.Re + a.Im * b.Im) / (b.Re * b.Re + b.Im * b.Im), (b.Re * a.Im - a.Re * b.Im) / (b.Re * b.Re + b.Im * b.Im)}, nil
+		default:
+			return nil, fmt.Errorf("Can't find type for second var: %v", stype)
+		}
+	default:
 		return nil, fmt.Errorf("Can't find type for first var: %v", ftype)
 	}
 	return nil, fmt.Errorf("End of method")
@@ -99,6 +128,17 @@ func Sub(i interface{}, k interface{}) (interface{}, error) {
 		switch stype := k.(type) {
 		case float64:
 			return i.(float64) - k.(float64), nil
+		case Complex:
+			return Complex{i.(float64) - k.(Complex).Re, -k.(Complex).Im}, nil
+		default:
+			return nil, fmt.Errorf("Can't find type for second var: %v", stype)
+		}
+	case Complex:
+		switch stype := k.(type) {
+		case float64:
+			return Complex{ i.(Complex).Re - k.(float64), i.(Complex).Im}, nil
+		case Complex:
+			return Complex{i.(Complex).Re - k.(Complex).Re, i.(Complex).Im - k.(Complex).Im}, nil
 		default:
 			return nil, fmt.Errorf("Can't find type for second var: %v", stype)
 		}
