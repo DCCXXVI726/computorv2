@@ -16,10 +16,27 @@ func main() {
 
 		str = strings.Replace(str,"\n", "", -1)
 		if str == "exit" {
-			fmt.Errorf("bay bay")
+			fmt.Print("bay bay")
 			break
 		}
-		tokens, err := createTokens(str)
+		i := 0
+		find_equal := false
+		for i = 0; i < len(str); i++ {
+			if str[i] == '=' {
+				if i != len(str) -1 {
+					find_equal = true
+					break
+				}
+			}
+		}
+		var str1, str2 string
+		if find_equal {
+			 str1, _ = checkVar(str[:i])
+			 str2 = str[i+1:]
+		} else {
+			str2 = str
+		}
+		tokens, err := createTokens(str2)
 		if err != nil {
 			err = fmt.Errorf("Promlem in createTokens: %v", err)
 			fmt.Println(err)
@@ -34,6 +51,10 @@ func main() {
 			fmt.Println("end with close bracket")
 			continue
 		}
-		fmt.Println(result)
+		if find_equal {
+			setVar(str1, result)
+		}
+		printResult(result)
+		fmt.Println()
 	}
 }
